@@ -40,7 +40,12 @@ public class TestSomeClass{
 		System.out.println(System.getProperty("user.home"));
 		System.out.println(System.getProperty("user.dir"));
 
-
+		BigInteger bi=new BigInteger("1234567892933");
+		BigDecimal bd=new BigDecimal("12345.4465");
+		BigDecimal bd2=new BigDecimal("11");
+		System.out.println(bi);
+		System.out.println(bd.divide(bd2,BigDecimal.ROUND_HALF_UP));
+		System.out.println(bd.divide(bd2,15,BigDecimal.ROUND_HALF_UP));
 		/*
 		Goods[] all=new Goods[4];
 		all[0]=new Goods("A",120);
