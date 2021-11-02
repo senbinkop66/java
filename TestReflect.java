@@ -58,7 +58,7 @@ public class TestReflect{
 		in=this.getClass().getClassLoader().getResourceAsStream("A.properties");
 		System.out.println(in);
 		*/
-
+		/*
 		//根据全类名获取对应的Class对象
 		String name="project.java.Person";
 		Class clazz=null;
@@ -68,7 +68,8 @@ public class TestReflect{
 		//通过Constructor的实例创建对应类的对象，并初始化类属性
 		Person p2=(Person)con.newInstance("mane",28);
 		System.out.println(p2);
-
+		*/
+		
 	}
 	/*
 	static {
