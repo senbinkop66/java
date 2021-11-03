@@ -4,6 +4,13 @@ public class TestJava8{
 	public String toUpperString(MyFunc<String> mf,String str){
 		return mf.getValue(str);
 	}
+	public void test1(){
+		Boy b=new Boy("mane");
+		Optional<Girl> opt=Optional.ofNullable(b.getGirlFriend());
+		opt.ifPresent(System.out::println);
+
+	}
+	
 	public static void main(String[] args) {
 		
 		//Lambda 表达式：语法
@@ -26,7 +33,7 @@ public class TestJava8{
 		//作为参数传递 Lambda 表达式
 		String newStr=toUpperString((str)->str.toUpperCase(),"computer games");
 		System.out.println(newStr);
-
+		
 		
 
 	}
