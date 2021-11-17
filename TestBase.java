@@ -1,4 +1,5 @@
 import java.time.*;
+import java.util.*;
 
 class Employee{
 	// instance fields
@@ -15,6 +16,10 @@ class Employee{
 
 	public int hashCode(){
 		return Objects.hash(name,salary,hireDay);
+	}
+
+	public String toString(){
+		return getClass().getName()+"[name="+name+",salary="+salary+",hireDay="+hireDay+"]";
 	}
 
 	//method
@@ -41,9 +46,8 @@ class Employee{
 		if (getClass()!=otherObject.getClass()) {
 			return false;
 		}
-		Employee otherObject=(Employee) otherObject;
-		return otherObjectect.equals(name,otherObject.name) && 
-		salary==otherObject.salary && otherObjectect.equals(hireDay,otherObject.hireDay);
+		Employee other=(Employee) otherObject;
+		return Objects.equals(name,other.name) && salary==other.salary && Objects.equals(hireDay,other.hireDay);
 	}
 
 }
@@ -56,6 +60,9 @@ class Manager extends Employee{
 	public Manager(String n,double s,int y,int m,int d){
 		super(n,s,y,m,d);
 		bonus=0;
+	}
+	public String toString(){
+		return super.toString()+",[bonus="+bonus+"]";
 	}
 
 	//新增方法
@@ -73,30 +80,39 @@ class Manager extends Employee{
 		if (!super.equals(otherObject)) {
 			return false;
 		}
-		Manager otherObject=(Manager) otherObject;
-		return bonus==otherObject.bonus;
+		Manager other=(Manager) otherObject;
+		return bonus==other.bonus;
 	}
 }
 
 
 public class TestBase{
 	public static void main(String[] args){
-		Employee[] staff=new Employee[4];
-
-		staff[0]=new Employee("mane",20,2015,6,11);
-		staff[1]=new Employee("Alison",23,2018,6,26);
-		staff[2]=new Employee("Arnold",18,2006,6,6);
-		Manager boss=new Manager("kloop",50,2015,10,10);
-		boss.setBonus(1000);
-		staff[3]=boss;
 		
-		for (Employee e:staff){
-			e.raiseSalary(5);
+		//声明和构造一个保存 Employee 对象的数组列表
+		ArrayList<Employee> staff2= new ArrayList<>(100);
+
+		staff2.add(new Employee("mane",20,2015,6,11));
+		staff2.add(new Employee("Arnold",18,2006,6,6));
+
+		System.out.println(staff2.size());  // 2
+		Manager boss1=new Manager("kloop",50,2015,10,10);
+		staff2.add(1,boss1);
+		System.out.println(staff2.size());  // 3
+
+		Employee re=staff2.remove(1);
+		System.out.println(staff2.size());  // 2
+
+		for (Employee e:staff2){
+			System.out.println(e.getName());
+		}
+		//相同的效果
+		for (int i=0; i<staff2.size(); i++) {
+			System.out.println(staff2.get(i).getName());
 		}
 
-		for (Employee e:staff){
-			System.out.println("name:"+e.getName()+",salary:"+e.getSalary()+",hireDay:"+e.getHireDay());
-		}
 
+		
+		
 	}
 }
