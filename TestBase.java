@@ -13,6 +13,10 @@ class Employee{
 		hireDay=LocalDate.of(year,month,day);
 	}
 
+	public int hashCode(){
+		return Objects.hash(name,salary,hireDay);
+	}
+
 	//method
 	public String getName(){
 		return name;
@@ -26,6 +30,20 @@ class Employee{
 	public void raiseSalary(double byPercent){
 		double raise=salary*byPercent/100;
 		salary+=raise;
+	}
+	public boolean equals(Object otherObject){
+		if (this==otherObject) {
+			return true;
+		}
+		if (otherObject==null) {
+			return false;
+		}
+		if (getClass()!=otherObject.getClass()) {
+			return false;
+		}
+		Employee otherObject=(Employee) otherObject;
+		return otherObjectect.equals(name,otherObject.name) && 
+		salary==otherObject.salary && otherObjectect.equals(hireDay,otherObject.hireDay);
 	}
 
 }
@@ -50,6 +68,13 @@ class Manager extends Employee{
 		//调用超类 Employee 中的 getSalary 方法
 		double baseSalary=super.getSalary();
 		return baseSalary+bonus;
+	}
+	public boolean equals(Object otherObject){
+		if (!super.equals(otherObject)) {
+			return false;
+		}
+		Manager otherObject=(Manager) otherObject;
+		return bonus==otherObject.bonus;
 	}
 }
 
