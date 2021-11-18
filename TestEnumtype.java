@@ -41,6 +41,7 @@ public enum SeasonEnum{
 		return seasonDesc;
 	}
 }
+
 public class TestEnumtype{
 	/**
 	 * @param args String[] 命令行参数
