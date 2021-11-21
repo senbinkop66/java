@@ -89,30 +89,11 @@ class Manager extends Employee{
 public class TestBase{
 	public static void main(String[] args){
 		
-		//声明和构造一个保存 Employee 对象的数组列表
-		ArrayList<Employee> staff2= new ArrayList<>(100);
-
-		staff2.add(new Employee("mane",20,2015,6,11));
-		staff2.add(new Employee("Arnold",18,2006,6,6));
-
-		System.out.println(staff2.size());  // 2
-		Manager boss1=new Manager("kloop",50,2015,10,10);
-		staff2.add(1,boss1);
-		System.out.println(staff2.size());  // 3
-
-		Employee re=staff2.remove(1);
-		System.out.println(staff2.size());  // 2
-
-		for (Employee e:staff2){
-			System.out.println(e.getName());
-		}
-		//相同的效果
-		for (int i=0; i<staff2.size(); i++) {
-			System.out.println(staff2.get(i).getName());
-		}
+		Employee staff1=new Employee("mane",20,2015,6,11);
+		Employee staff2=new Employee("Arnold",18,2006,6,6);
 
 		
-		
-		
+
+
 	}
 }

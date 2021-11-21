@@ -2,7 +2,7 @@ import java.util.*;
 import java.lang.reflect.*;
 
 
-public class TestBase2{
+public class TestReflect2{
 	public static void main(String[] args){
 		//从命令行读取类名
 		String name;
