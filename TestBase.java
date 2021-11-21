@@ -1,5 +1,6 @@
 import java.time.*;
 import java.util.*;
+import java.lang.reflect.*;
 
 class Employee{
 	// instance fields
@@ -89,11 +90,19 @@ class Manager extends Employee{
 public class TestBase{
 	public static void main(String[] args){
 		
-		Employee staff1=new Employee("mane",20,2015,6,11);
+		Employee staff1=new Employee("name",20,2015,6,11);
 		Employee staff2=new Employee("Arnold",18,2006,6,6);
 
-		
-
+		try{
+			Class c1=staff1.getClass();
+			Field f=c1.getDeclaredField("name");
+			f.setAccessible(true);
+			Object v=f.get(staff1);
+			System.out.println(v);  //name
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 }

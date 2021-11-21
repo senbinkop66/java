@@ -5,14 +5,8 @@ import java.lang.reflect.*;
 public class TestBase2{
 	public static void main(String[] args){
 		//从命令行读取类名
-		String name;
-		if (args.length>0){
-			name=args[0];
-		}else{
-			Scanner in=new Scanner(System.in);
-			System.out.println("输入类名：");  //java.lang.Int
-			name=in.next();
-		}
+		String name="java.lang.reflect.Method";
+		
 		try{
 			//输出类名和超类名
 			Class c1=Class.forName(name);
