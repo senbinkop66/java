@@ -2,7 +2,7 @@ import java.time.*;
 import java.util.*;
 import java.lang.reflect.*;
 
-class Employee{
+class Employee implements Cloneable,Comparable<Employee>{
 	// instance fields
 	private String name;
 	private double salary;
@@ -51,6 +51,12 @@ class Employee{
 		return Objects.equals(name,other.name) && salary==other.salary && Objects.equals(hireDay,other.hireDay);
 	}
 
+	public int compareTo(Employee other){
+		return Double.compare(salary,other.salary);
+	}
+
+
+
 }
 
 class Manager extends Employee{
@@ -89,20 +95,19 @@ class Manager extends Employee{
 
 public class TestBase{
 	public static void main(String[] args){
-		
-		Employee staff1=new Employee("name",20,2015,6,11);
-		Employee staff2=new Employee("Arnold",18,2006,6,6);
+		Employee[] staff=new Employee[3];
 
-		try{
-			Class c1=staff1.getClass();
-			Field f=c1.getDeclaredField("name");
-			f.setAccessible(true);
-			Object v=f.get(staff1);
-			System.out.println(v);  //name
-			
-		}catch (Exception e) {
-			e.printStackTrace();
+		staff[0]=new Employee("mane",20,1994,12,11);
+		staff[1]=new Employee("Alison",23,1993,10,5);
+		staff[2]=new Employee("Arnold",18,2000,4,12);
+
+		for (Employee e:staff){
+			System.out.println("name:"+e.getName()+",salary:"+e.getSalary()+",hireDay:"+e.getHireDay());
 		}
+
+
+
+
 
 	}
 }
