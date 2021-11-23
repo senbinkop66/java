@@ -1,54 +1,64 @@
 import java.util.*;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.Timer;
+import java.lang.reflect.*;
 
-class ArrayAlg{
-	public static class Pair{
-		private double first;
-		private double second;
+//调用器类
+class TraceHandler implements InvocationHandler{
+	private Object target;
 
-		public Pair(double f,double s){
-			first=f;
-			second=s;
-		}
-
-		public double getFirst(){
-			return first;
-		}
-		public double getSecond(){
-			return second;
-		}
+	public TraceHandler(Object t){
+		target=t;
 	}
-	public static Pair minmax(double[] values){
-		double min=Double.POSITIVE_INFINITY;
-		double max=Double.NEGATIVE_INFINITY;
-		for (double v:values) {
-			if (min>v) {
-				min=v;
-			}
-			if (max<v) {
-				max=v;
+	public Object invoke(Object proxy,Method m,Object[] args) throws Throwable{
+		//打印出方法名和参数
+		System.out.print(target);
+		System.out.print("."+m.getName()+"(");
+		if (args!=null) {
+			for (int i=0; i<args.length; i++){
+				System.out.print(args[i]);
+				if (i<args.length-1) {
+					System.out.print(", ");
+				}
 			}
 		}
-		return new Pair(min,max);
-
+		System.out.println(")");
+		return m.invoke(target,args);
 	}
 }
 
 public class TestBase3{
 	public static void main(String[] args){
-		double[] d=new double[5];
-		for (int i=0; i<d.length; i++) {
-			d[i]=100*Math.random();
+		Object[] elements=new Object[1000];
+		for (int i=0; i<elements.length; i++) {
+			//代理填充数组
+			Integer value=i+1;
+			InvocationHandler handler = new TraceHandler(value);
+			Object proxy=Proxy.newProxyInstance(null,new Class[]{Comparable.class},handler);
+			//由于数组中填充了代理对象， 所以 compareTo 调用了 TraceHander 类中的 invoke 方法。
+			elements[i]=proxy;
 		}
-
-		System.out.println(Arrays.toString(d));
-		//[7.803257533515728, 97.0222694732156, 18.359083423368983, 62.2407079145171, 36.27014599745496]最小值：7.803257533515728
-		ArrayAlg.Pair p=ArrayAlg.minmax(d);
-		System.out.println("最小值："+p.getFirst());  //最小值：7.803257533515728
-		System.out.println("最大值："+p.getSecond());  //最大值：97.0222694732156
+		//构建一个随机整数
+		Integer key=new Random().nextInt(elements.length)+1;
+		//搜索key
+		int result=Arrays.binarySearch(elements,key);
+		//输出结果
+		if (result>0) {
+			System.out.println("key="+key+",result="+elements[result]);
+		}
 
 	}
 }
+/*
+Compiling TestBase3.java......
+------Output------
+500.compareTo(971)
+750.compareTo(971)
+875.compareTo(971)
+938.compareTo(971)
+969.compareTo(971)
+985.compareTo(971)
+977.compareTo(971)
+973.compareTo(971)
+971.compareTo(971)
+971.toString()
+key=971,result=971
+*/
