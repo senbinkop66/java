@@ -47,18 +47,3 @@ public class TestBase3{
 
 	}
 }
-/*
-Compiling TestBase3.java......
-------Output------
-500.compareTo(971)
-750.compareTo(971)
-875.compareTo(971)
-938.compareTo(971)
-969.compareTo(971)
-985.compareTo(971)
-977.compareTo(971)
-973.compareTo(971)
-971.compareTo(971)
-971.toString()
-key=971,result=971
-*/
