@@ -1,5 +1,6 @@
 import java.util.*;
 import java.io.*;
+import java.util.logging.*;
 
 public class TestBase4{
 
@@ -19,36 +20,8 @@ public class TestBase4{
 	}
 	public static void main(String[] args){
 		factorial(3);
+		Logger.getGlobal().info("File->Open menu item selected");
 	}
 }
-/*
-Compiling TestBase4.java......
-------Output------
-factorial(3):
-TestBase4.factorial(TestBase4.java:8)
-TestBase4.main(TestBase4.java:21)
 
-factorial(2):
-TestBase4.factorial(TestBase4.java:8)
-TestBase4.factorial(TestBase4.java:16)
-TestBase4.main(TestBase4.java:21)
-
-factorial(1):
-TestBase4.factorial(TestBase4.java:8)
-TestBase4.factorial(TestBase4.java:16)
-TestBase4.factorial(TestBase4.java:16)
-TestBase4.main(TestBase4.java:21)
-
-factorial(0):
-TestBase4.factorial(TestBase4.java:8)
-TestBase4.factorial(TestBase4.java:16)
-TestBase4.factorial(TestBase4.java:16)
-TestBase4.factorial(TestBase4.java:16)
-TestBase4.main(TestBase4.java:21)
-
-return 1
-return 1
-return 2
-return 6
-[Finished in 1.2s]
-*/
+private static final Logger myLogger=Logger.getLogger("com.mycompany.myapp");
