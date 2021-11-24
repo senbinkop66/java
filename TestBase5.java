@@ -117,23 +117,60 @@ class Pair<T>{
 		second=newValue;
 	}
 }
+class ArrayAlg{
+	public static boolean hasNulls(Pair<?> p){
+		return p.getFirst()==null  || p.getSecond()==null;
+	}
+	public static void swap(Pair<?> p){swapHelper(p);}
 
-public class TestBase{
-	
-	public static void main(String[] args){
+	public static <T> void swapHelper(Pair<T> p){
+		//swapHelper 是一个泛型方法， 而 swap 不是， 它具有固定的 Pair<?> 类型的参数。
+		//在这种情况下，swapHelper 方法的参数 T 捕获通配符。
+		T t=p.getFirst();
+		p.setFirst(p.getSecond());
+		p.setSecond(t);
+	}
+}
 
-		Employee[] staff=new Employee[3];
-		staff[0]=new Employee("mane",20,1994,12,11);
-		staff[1]=new Employee("Alison",23,1993,10,5);
-		staff[2]=new Employee("Arnold",18,2000,4,12);
-
-		for (Employee e:staff){
-			System.out.println("name:"+e.getName()+",salary:"+e.getSalary()+",hireDay:"+e.getHireDay());
+public class TestBase5{
+	public static void printBuddies(Pair<? extends Employee> p){
+		Employee first=p.getFirst();
+		Employee second=p.getSecond();
+		System.out.println(first.getName()+" and "+second.getName()+" are buddies");
+	}
+	public static void minmaxBonus(Manager[] a,Pair<? super Manager> result){
+		if (a.length==0) return;
+		Manager min=a[0];
+		Manager max=a[0];
+		for (int i=1; i<a.length; i++) {
+			if (min.getBonus()>a[i].getBonus()) min=a[i];
+			if (max.getBonus()<a[i].getBonus()) max=a[i];
 		}
+		result.setFirst(min);
+		result.setSecond(max);
+	}
+	public static void maxminBonus(Manager[] a,Pair<? super Manager> result){
+		minmaxBonus(a,result);
+		ArrayAlg.swapHelper(result);
+	}
+	public static void main(String[] args){
+		Manager ceo=new Manager("mane",20,1994,12,11);
+		Manager cfo=new Manager("Alison",23,1993,10,5);
 
+		Pair<Manager> buddies=new Pair<>(ceo,cfo);
+		printBuddies(buddies);
 
+		ceo.setBonus(100);
+		cfo.setBonus(200);
 
+		Manager[] managers={ceo,cfo};
 
+		Pair<Employee> result=new Pair<>();
+		minmaxBonus(managers,result);
+		System.out.println("first: "+result.getFirst().getName()+", second: "+result.getSecond().getName());
+
+		maxminBonus(managers,result);
+		System.out.println("first: "+result.getFirst().getName()+", second: "+result.getSecond().getName());
 
 	}
 }
