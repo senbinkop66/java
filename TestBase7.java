@@ -1,38 +1,53 @@
 import java.util.*;
 
-public class TestBase7{
-	public static void main(String[] args) {
-		Set<String> words=new HashSet<>();
-		long totalTime=0;
+class Item implements Comparable<Item>{
+	private String description;
+	private int partNumber;
 
-		try (Scanner in=new Scanner(System.in)){
-			while (in.hasNext()){
-				String word=in.next();
-				long callTime=System.currentTimeMillis();
-				words.add(word);
-				callTime=System.currentTimeMillis()-callTime;
-				totalTime+=callTime;
-			}
-		}
-		Iterator<String> iter=words.iterator();
-		for (int i=1;i<=20 && iter.hasNext(); i++) {
-			if (i%5==0) {
-				System.out.println();
-			}
-			System.out.print(iter.next()+"\t");
-		}
-		System.out.println("...");
-		System.out.println(words.size()+" distinct words. "+totalTime+" milliseconds");
+	public Item(String d,int p){
+		description=d;
+		partNumber=p;
+	}
+
+	public String getDescription(){
+		return description;
+	}
+	public String toString(){
+		return "[description="+description+", partNumber="+partNumber+"]";
+	}
+	public boolean equals(Object otherObject){
+		if (this==otherObject) return true;
+		if (otherObject==null) return false;
+		if (getClass()!=otherObject.getClass()) return false;
+		Item other=(Item) otherObject;
+		return Objects.equals(description,other.description) && partNumber==other.partNumber;
+	}
+	public int hashCode(){
+		return Objects.hash(description,partNumber);
+	}
+	public int compareTo(Item other){
+		int diff=Integer.compare(partNumber,other.partNumber);
+		return diff!=0 ? diff : description.compareTo(other.description);
 	}
 }
 
-//java TestBase7 < a.txt
+public class TestBase7{
+	public static void main(String[] args) {
+		SortedSet<Item> sorter=new TreeSet<>();  //构造一个空树集。
+		sorter.add(new Item("mane",10));
+		sorter.add(new Item("Arnold",66));
+		sorter.add(new Item("Alison",1));
+		System.out.println(sorter);
+
+		NavigableSet<Item> sortByDescription = new TreeSet<>(Comparator.comparing(Item::getDescription));
+		//返回用于对元素进行排序的比较器。 如果元素用 Comparable 接口的 compareTo方法进行比较则返回 null。
+		sortByDescription.addAll(sorter);
+		System.out.println(sortByDescription);
+
+	}
+}
 /*
-$ java TestBase7 < a.txt
-big     explosive       data    advanced
-high-speed      serve   issues  sequencing      that
-appeared        problem reality,        huge    those
-which   development     computing(HPC)along     in      need
-impact  ...
-77 distinct words. 0 milliseconds
+------Output------
+[[description=Alison, partNumber=1], [description=mane, partNumber=10], [description=Arnold, partNumber=66]]
+[[description=Alison, partNumber=1], [description=Arnold, partNumber=66], [description=mane, partNumber=10]]
 */
