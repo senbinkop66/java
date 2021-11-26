@@ -57,7 +57,20 @@ class Employee implements Cloneable,Comparable<Employee>{
 }
 
 public class TestBase8{
+	public static <T extends Comparable> T max(Collection<T> c){
+		if (c.isEmpty()) throw new NoSuchElementException();
+		Iterator<T> iter=c.iterator();
+		T largest=iter.next();
+		while (iter.hasNext()){
+			T next=iter.next();
+			if (largest.compareTo(next)<0) {
+				largest=next;
+			}
+		}
+		return largest;
+	}
 	public static void main(String[] args) {
+		/*
 		Map<String,Employee> staff=new HashMap<>();
 		Employee staff1=new Employee("mane",20,1994,12,11);
 		Employee staff2=new Employee("Alison",23,1993,10,5);
@@ -79,10 +92,27 @@ public class TestBase8{
 			System.out.print("key="+k);
 			System.out.println("\tvalue:"+v.toString());
 			});
-		Map<K,V> cache=new LinkedHashMap<>(128,0.75F,true){
-			protected boolean removeEldestEntry(Map.Entry<K,V> eldest){
-				return size()>100;
-			}
-		}();
+		Card[] cardDeck=new Card[52];
+		...
+		//将数组传递给一个期望得到列表或集合参数的方法
+		List<Card> cardlist=Arrays.asList(cardDeck);
+		//可以接收可变数目的参数
+		List<String> names=Arrays.asList("mane","Alison","Arnold");
+		//创建一个包含100个字符串的List,每个串都被设置为“DEFAULT”：
+		List<String> settings=Collections.nCopies(100,"DEFAULT");
+		*/
+
+		List<Integer> numbers=new ArrayList<>();
+		for (int i=1;i<=50;i++){
+			numbers.add(i);
+		}
+		Collections.shuffle(numbers);
+		List<Integer> sub6=numbers.subList(0,6);
+		Collections.sort(sub6);
+		System.out.println(sub6);
+		sub6.sort(Comparator.reverseOrder());
+		System.out.println(sub6);
+		//[48, 29, 25, 9, 6, 2]
 	}
 }
+
