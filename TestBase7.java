@@ -46,8 +46,4 @@ public class TestBase7{
 
 	}
 }
-/*
-------Output------
-[[description=Alison, partNumber=1], [description=mane, partNumber=10], [description=Arnold, partNumber=66]]
-[[description=Alison, partNumber=1], [description=Arnold, partNumber=66], [description=mane, partNumber=10]]
-*/
+
