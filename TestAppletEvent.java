@@ -5,6 +5,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import java.awt.event.*;
+import java.awt.geom.*;
+import java.util.*;
 
 class ButtonFrame extends JFrame{
 	private JPanel buttonPanel;
@@ -125,10 +127,103 @@ class ActionFrame extends JFrame{
 		}
 	}
 }
+
+class MouseFrame extends JFrame{
+	public MouseFrame(){
+		add(new MouseComponent());
+		pack();
+	}
+}
+class MouseComponent extends JComponent{
+	private static final int DEFAULT_WIDTH=600;
+	private static final int DEFAULT_HEIGHT=400;
+
+	private static final int SIDELENGTH=10;
+	private ArrayList<Rectangle2D> squares;
+	private Rectangle2D current;  //包含鼠标光标的方块
+
+	public MouseComponent(){
+		squares=new ArrayList<>();
+		current=null;
+		addMouseListener(new MouseHandler());
+		addMouseMotionListener(new MouseMotionHandler());
+	}
+	public Dimension getPreferredSize(){
+		return new Dimension(DEFAULT_WIDTH,DEFAULT_HEIGHT);
+	}
+	public void paintComponent(Graphics g){
+		Graphics2D g2=(Graphics2D) g;
+		g2.setPaint(Color.BLUE);
+		for (Rectangle2D r:squares){
+			g2.draw(r);
+		}
+	}
+	//发现包含点的第一个方块
+	public Rectangle2D find(Point2D p){
+		for (Rectangle2D r:squares){
+			if (r.contains(p)) return r;
+		}
+		return null;
+	}
+	//添加一个方块到集合
+	public void add(Point2D p){
+		double x=p.getX();
+		double y=p.getY();
+		current=new Rectangle2D.Double(x-SIDELENGTH/2,y-SIDELENGTH/2,SIDELENGTH,SIDELENGTH);
+		squares.add(current);
+		repaint();
+	}
+	//从集合中移除一个方块
+	public void remove(Rectangle2D s){
+		if (s==null) return;
+		if (s==current) current=null;
+		squares.remove(s);
+		repaint();
+	}
+	//内部类
+	private class MouseHandler extends MouseAdapter{
+		public void mousePressed(MouseEvent event){
+			//当光标没有在一个方块内时添加一个方块
+			current=find(event.getPoint());  //返回事件发生时， 事件源组件左上角的坐标 x (水平）和 y (竖直)， 或点信息。
+			if (current==null) {
+				add(event.getPoint());
+			}
+		}
+		public void mouseClicked(MouseEvent event){
+			//双击添加一个方块
+			current=find(event.getPoint());
+			//回与事件关联的鼠标连击次数（“ 连击” 所指定的时间间隔与具体系统有关)。
+			if (current!=null && event.getClickCount()>=2) {
+				remove(current);
+			}
+		}
+	}
+	//内部类
+	private class MouseMotionHandler implements MouseMotionListener{
+		public void mouseMoved(MouseEvent event){
+			//用光标图像设置给定光标
+			if (find(event.getPoint())==null) {
+				setCursor(Cursor.getDefaultCursor());;
+			}else{
+				setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+			}
+		}
+		public void mouseDragged(MouseEvent event){
+			if (current!=null) {
+				int x=event.getX();
+				int y=event.getY();
+				//拖动方块
+				current.setFrame(x-SIDELENGTH/2,y-SIDELENGTH/2,SIDELENGTH,SIDELENGTH);
+				repaint();
+			}
+		}
+	}
+}
+
 public class TestAppletEvent{
 	public static void main(String[] args) {
 		EventQueue.invokeLater(()->{
-			JFrame frame=new ActionFrame();
+			JFrame frame=new MouseFrame();
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.setTitle("动作事件");  //设置框架标题
 			frame.setLocation(50,50);
