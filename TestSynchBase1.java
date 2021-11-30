@@ -15,33 +15,23 @@ class Bank{
 		sufficientFunds=bankLock.newCondition();
 	}
 
-	public void transfer(int from,int to,double amount) throws InterruptedException{
-		bankLock.lock();
-		try{
+	public synchronized void transfer(int from,int to,double amount) throws InterruptedException{
 			while(accounts[from]<amount){
-				sufficientFunds.await();
+				wait();
 			}
 			System.out.print(Thread.currentThread());
 			accounts[from]-=amount;
 			System.out.printf(" %10.2f from %d to %d",amount,from,to);
 			accounts[to]+=amount;
 			System.out.printf(" 总额: %10.2f%n",getTotalBalance());
-			sufficientFunds.signalAll();
-		}finally{
-			bankLock.unlock();
-		}
+			notifyAll();
 	}
-	public double getTotalBalance(){
-		bankLock.lock();
-		try{
-			double sum=0;
-			for (double a:accounts){
-				sum+=a;
-			}
-			return sum;
-		}finally{
-			bankLock.unlock();
+	public synchronized double getTotalBalance(){
+		double sum=0;
+		for (double a:accounts){
+			sum+=a;
 		}
+		return sum;
 	}
 	public int size(){
 		return accounts.length;
@@ -76,10 +66,7 @@ public class TestSynchBase1{
 	}
 }
 
+java.lang.Object 
+	void notifyAll()  /*解除那些在该对象上调用 wait 方法的线程的阻塞状态。该方法只能在同步方法或同步块内
+	部调用。 如果当前线程不是对象锁的持有者，该方法拋出一个 IllegalMonitorStateException异常。*/
 
-java.util.concurrent.locks.Lock
-	Condition newCondition( )  //返回一个与该锁相关的条件对象。
-java.util.concurrent.locks.Condition
-	void await( )  //将该线程放到条件的等待集中。
-	void signalA11( )  //解除该条件的等待集中的所有线程的阻塞状态。
-	void signal ( )  //从该条件的等待集中随机地选择一个线程， 解除其阻塞状态。
