@@ -39,7 +39,7 @@ class Bank{
 }
 
 public class TestSynchBase1{
-	public static final int NACCOUNTS=100;
+	public static final int NACCOUNTS=10;
 	public static final double INITIAL_BALANCE=1000;
 	public static final double MAX_AMOUNT=1000;
 	public static final int DELAY=10;
@@ -66,7 +66,4 @@ public class TestSynchBase1{
 	}
 }
 
-java.lang.Object 
-	void notifyAll()  /*解除那些在该对象上调用 wait 方法的线程的阻塞状态。该方法只能在同步方法或同步块内
-	部调用。 如果当前线程不是对象锁的持有者，该方法拋出一个 IllegalMonitorStateException异常。*/
 
